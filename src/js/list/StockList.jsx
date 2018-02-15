@@ -1,0 +1,81 @@
+import React from 'react';
+
+import { loadStockList } from 'helpers/stockHelper';
+
+import StockListItem from './StockListItem';
+
+const badgeModes = ['change', 'changePercent', 'marketCap'];
+
+export default class StockList extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            quotes: [],
+            badgeMode: 0
+        };
+
+        this.toggleMode = this.toggleMode.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadData()
+    }
+
+    loadData() {
+        loadStockList(this.props.stocks)
+            .then((quotes) => {
+                this.setState({
+                    quotes
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
+    toggleMode() {
+        let nextIndex = 0;
+        if (this.state.badgeMode + 1 < badgeModes.length) {
+            nextIndex = this.state.badgeMode + 1;
+        }
+
+        this.setState({
+            badgeMode: nextIndex
+        });
+    }
+
+    render() {
+        let content = 'No stocks';
+        if (this.state.quotes.length > 0) {
+            content = this.state.quotes.map((quote, i) => {
+                // we need to determine if the next stock is active in order to disable the bottom
+                // border
+                let nextActive = false;
+                if (i > 0 && i + 1 < this.state.quotes.length &&
+                    this.state.quotes[i + 1].ticker === this.props.activeStock) {
+                    nextActive = true;
+                }
+
+                return (
+                    <StockListItem
+                        key={quote.ticker}
+                        stock={quote}
+                        active={quote.ticker === this.props.activeStock}
+                        nextActive={nextActive}
+                        mode={badgeModes[this.state.badgeMode]}
+                        toggleMode={this.toggleMode}
+                        changeActive={this.props.changeActive} />
+                );
+            });
+        }
+
+        return (
+            <div className="stock-list">
+                <ul className="stock-list__list">
+                    {content}
+                </ul>
+            </div>
+        );
+    }
+}

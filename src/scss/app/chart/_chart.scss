@@ -1,0 +1,28 @@
+.stock-chart {
+    background-color: $color-dark-gray;
+    height: 100%;
+    width: 100%;
+
+    @import "./_range";
+
+    .stock-chart__message {
+        margin-top: 50px;
+        text-align: center;
+    }
+
+    .stock-chart__chart {
+        margin: 0 15px;
+    }
+
+    .stock-chart__disclosure {
+        margin-top: 10px;
+        margin-left: 15px;
+        font-size: 10px;
+
+        color: #838383;
+
+        a:link, a:visited {
+            color: #838383;            
+        }
+    }
+}

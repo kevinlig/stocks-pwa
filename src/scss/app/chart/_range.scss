@@ -1,0 +1,32 @@
+.stock-range {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+
+    list-style-type: none;
+    padding: 0;
+    margin: 0 15px;
+
+    border-bottom: 1px solid $color-white;
+
+    .stock-range__item {
+        flex: 1 1 auto;
+        text-align: center;
+        
+    }
+    .stock-range__button {
+        @include unstyled-button;
+
+        color: $color-white;
+        font-size: 13px;
+        margin: 0 auto;
+        padding-top: 15px;
+        padding-bottom: 5px;
+        text-align: center;
+        opacity: 0.5;
+
+        &.stock-range__button_active, &:active {
+            opacity: 1;
+        }
+    }
+}
