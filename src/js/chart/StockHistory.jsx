@@ -14,6 +14,7 @@ export default class StockHistory extends React.Component {
             range: 3,
             width: 0,
             loading: true,
+            offline: false,
             data: []
         };
 
@@ -48,8 +49,16 @@ export default class StockHistory extends React.Component {
     }
 
     loadData(stock) {
+        if (!navigator.onLine) {
+            this.setState({
+                offline: true
+            });
+            return;
+        }
+
         this.setState({
-            loading: true
+            loading: true,
+            offline: false
         });
 
         loadStockHistory(stock, ranges[this.state.range].toLowerCase())
@@ -80,10 +89,17 @@ export default class StockHistory extends React.Component {
             </div>
         );
 
-        if (!this.state.loading && this.state.data.length === 0) {
+        if (this.state.offline) {
             chart = (
                 <div className="stock-chart__message stock-chart__message_loading">
-                    No data available
+                    Stock history not available offline.
+                </div>
+            );
+        }
+        else if (!this.state.loading && this.state.data.length === 0) {
+            chart = (
+                <div className="stock-chart__message stock-chart__message_loading">
+                    No data available.
                 </div>
             );
         }

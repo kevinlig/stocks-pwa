@@ -1,6 +1,9 @@
 import React from 'react';
 
-import { loadStockList } from 'helpers/stockHelper';
+import {
+    loadStockList,
+    loadOfflineStocks
+} from 'helpers/stockHelper';
 
 import StockListItem from './StockListItem';
 
@@ -12,7 +15,8 @@ export default class StockList extends React.Component {
 
         this.state = {
             quotes: [],
-            badgeMode: 0
+            badgeMode: 0,
+            offline: false
         };
 
         this.toggleMode = this.toggleMode.bind(this);
@@ -30,10 +34,21 @@ export default class StockList extends React.Component {
 
     loadData() {
         const tickerOnly = this.props.stocks.map((item) => item.ticker);
+
+        if (!navigator.onLine) {
+            // user is offline, put in placeholder quotes
+            this.setState({
+                offline: true,
+                quotes: loadOfflineStocks(tickerOnly)
+            });
+            return;
+        }
+
         loadStockList(tickerOnly)
             .then((quotes) => {
                 this.setState({
-                    quotes
+                    quotes,
+                    offline: false
                 });
             })
             .catch((err) => {
@@ -53,7 +68,7 @@ export default class StockList extends React.Component {
     }
 
     render() {
-        let content = 'No stocks';
+        let content = null;
         if (this.state.quotes.length > 0) {
             content = this.state.quotes.map((quote, i) => {
                 // we need to determine if the next stock is active in order to disable the bottom

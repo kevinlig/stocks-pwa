@@ -72,6 +72,20 @@ export const loadStockList = (symbols) => {
         .catch((err) => Promise.reject(err));
 };
 
+export const loadOfflineStocks = (symbols) => {
+    // reformat stock symbols to match the IEX API response structure, so that we can
+    // send it to the model parser
+    const stocks = symbols.reduce((parsed, symbol) => {
+        parsed[symbol] = {
+            quote: {
+                symbol
+            }
+        };
+        return parsed;
+    }, {});
+    return parseStockList(stocks);
+}
+
 export const loadStockHistory = (symbol, range) => {
     return fetchStockHistory(symbol, range)
         .then((res) => res.json())
