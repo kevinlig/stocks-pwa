@@ -15,6 +15,6 @@
         margin-right: 15px;
     }
     .stock-header__menu-icon {
-        font-family: 'Material Icons';
+        @include icon;
     }
 }

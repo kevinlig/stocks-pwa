@@ -22,8 +22,15 @@ export default class StockList extends React.Component {
         this.loadData()
     }
 
+    componentDidUpdate(prevProps) {
+        if (prevProps.stocksChanged !== this.props.stocksChanged) {
+            this.loadData();
+        }
+    }
+
     loadData() {
-        loadStockList(this.props.stocks)
+        const tickerOnly = this.props.stocks.map((item) => item.ticker);
+        loadStockList(tickerOnly)
             .then((quotes) => {
                 this.setState({
                     quotes

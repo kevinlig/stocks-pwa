@@ -10,6 +10,15 @@
   },
   "author": "Kevin Li",
   "license": "UNLICENSED",
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src/js"
+    ],
+    "testMatch": [
+      "**/tests/**/*-test.js?(x)"
+    ]
+  },
   "devDependencies": {
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -19,6 +28,7 @@
     "css-loader": "^0.28.8",
     "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
+    "jest": "^22.3.0",
     "node-sass": "^4.7.2",
     "offline-plugin": "^4.9.0",
     "sass-loader": "^6.0.6",

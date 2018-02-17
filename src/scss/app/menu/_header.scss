@@ -8,6 +8,14 @@
     border-bottom: 1px solid #262626;
     background-color: #141414;
 
+    &.menu-header_right {
+        justify-content: flex-end;
+    }
+
+    &.menu-header_no-bottom {
+        border-bottom: none;
+    }
+
     .menu-header__button {
         flex: 0 0 30px;
         @include unstyled-button;
@@ -21,16 +29,20 @@
         }
     }
     .menu-header__icon {
-        font-family: 'Material Icons';
+        @include icon;
         font-size: 30px;
         color: $color-white;
     }
 
     h1.menu-header__title {
         flex: 1 1 auto;
-        font-size: 24px;
+        font-size: 20px;
         margin: 0;
         text-align: center;
+
+        &.menu-header__title_right {
+            margin-left: 45px;
+        }
     }
 
     

@@ -1,7 +1,6 @@
 import React from 'react';
 
 import {
-    defaultStocks,
     readUserStocks
 } from 'helpers/dbHelper';
 
@@ -11,18 +10,18 @@ import StockHistory from './chart/StockHistory';
 
 import StockMenu from './menu/StockMenu';
 
-// const stocks = ['AAPL', 'IBM', 'GOOG', 'MGK', 'ATVI', 'DRI', 'KR', 'UNP', 'TWX', 'TXN'];
-
 export default class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
             userStocks: [],
+            stocksChanged: Symbol('stock tracker'),
             activeStock: null,
             menuActive: false
         };
 
+        this.loadUserStocks = this.loadUserStocks.bind(this);
         this.changeActive = this.changeActive.bind(this);
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
@@ -34,15 +33,11 @@ export default class App extends React.Component {
 
     loadUserStocks() {
         readUserStocks()
-            .then((items) => {
-                let stocks = items;
-                if (!items || items.length === 0) {
-                    stocks = defaultStocks;
-                }
-                const tickerOnly = stocks.map((item) => item.ticker);
+            .then((stocks) => {
                 this.setState({
-                    userStocks: tickerOnly,
-                    activeStock: tickerOnly[0]
+                    userStocks: stocks,
+                    activeStock: stocks[0].ticker,
+                    stocksChanged: Symbol('stock tracker')
                 });
             })
             .catch((err) => {
@@ -73,6 +68,8 @@ export default class App extends React.Component {
         if (this.state.menuActive) {
             menu = (
                 <StockMenu
+                    stocks={this.state.userStocks}
+                    loadUserStocks={this.loadUserStocks}
                     hideMenu={this.hideMenu} />
             );
         }
@@ -95,6 +92,7 @@ export default class App extends React.Component {
                     <StockList
                         activeStock={this.state.activeStock}
                         stocks={this.state.userStocks} 
+                        stocksChanged={this.state.stocksChanged}
                         changeActive={this.changeActive} />
                 </div>
                 {menu}

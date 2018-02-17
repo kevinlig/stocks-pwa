@@ -3,6 +3,13 @@ import BaseHistory from 'models/BaseHistory';
 
 const baseUrl = 'https://api.iextrading.com/1.0';
 
+const fetchCompany = (symbol) => {
+    const request = new Request(`${baseUrl}/stock/${symbol}/company`, {
+        method: 'GET'
+    });
+    return fetch(request);
+};
+
 const fetchStockList = (symbols) => {
     const urlParams = new URLSearchParams();
     urlParams.set('types', 'quote');
@@ -22,6 +29,13 @@ const fetchStockHistory = (symbol, range) => {
 
     return fetch(request);
 };
+
+const parseCompanyData = (data) => (
+    {
+        ticker: data.symbol,
+        name: data.companyName
+    }
+);
 
 const parseStockList = (data) => (
     Object.keys(data).reduce((items, symbol) => {
@@ -68,4 +82,21 @@ export const loadStockHistory = (symbol, range) => {
         .catch((err) => Promise.reject(err));
 };
 
-
+export const lookupSymbol = (symbol) => {
+    return fetchCompany(symbol)
+        .then((res) => {
+            if (res.status === 404) {
+                return Promise.resolve([]);
+            }
+            return res.json();
+        })
+        .then((data) => {
+            if (data.length === 0) {
+                return Promise.resolve([]);
+            }
+            return Promise.resolve(
+                parseCompanyData(data)
+            );
+        })
+        .catch((err) => Promise.reject(err));
+}

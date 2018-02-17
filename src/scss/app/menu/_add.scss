@@ -1,0 +1,63 @@
+.stock-add {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    background-color: $color-black;
+    
+    @keyframes add-screen-entry {
+        0% {
+            transform: translate(0px, 100vh);
+        }
+        100% {
+            transform: translate(0px, 0vh);
+        }
+    }
+
+    animation: add-screen-entry 225ms normal forwards ease-in;
+
+    &.stock-add_exit {
+        @keyframes add-screen-exit {
+            0% {
+                transform: translate(0px, 0vh);
+            }
+            100% {
+                transform: translate(0px, 100vh);
+            }
+        }
+
+        animation: add-screen-exit 195ms normal forwards ease-in;   
+    }
+
+
+    .stock-add__search {
+        border-bottom: 1px solid #262626;
+        background-color: #141414;
+        padding: 0 15px 12px 15px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .stock-add__field {
+        flex: 1 1 auto;
+        background-color: transparent;
+        border: none;
+        border-bottom: 1px solid #262626;
+        padding: 5px 10px;
+        color: $color-white;
+        font-size: 14px;
+
+        &::placeholder {
+            color: rgb(116, 116, 121);
+        }
+    }
+
+    .stock-add__message {
+        text-align: center;
+        margin-top: 50px;
+    }
+}
