@@ -1,25 +1,53 @@
 import React from 'react';
 
+import {
+    defaultStocks,
+    readUserStocks
+} from 'helpers/dbHelper';
+
 import StockHeader from './header/StockHeader';
 import StockList from './list/StockList';
 import StockHistory from './chart/StockHistory';
 
 import StockMenu from './menu/StockMenu';
 
-const stocks = ['AAPL', 'IBM', 'GOOG', 'MGK', 'ATVI', 'DRI', 'KR', 'UNP', 'TWX', 'TXN'];
+// const stocks = ['AAPL', 'IBM', 'GOOG', 'MGK', 'ATVI', 'DRI', 'KR', 'UNP', 'TWX', 'TXN'];
 
 export default class App extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            activeStock: stocks[0],
+            userStocks: [],
+            activeStock: null,
             menuActive: false
         };
 
         this.changeActive = this.changeActive.bind(this);
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
+    }
+
+    componentDidMount() {
+        this.loadUserStocks();
+    }
+
+    loadUserStocks() {
+        readUserStocks()
+            .then((items) => {
+                let stocks = items;
+                if (!items || items.length === 0) {
+                    stocks = defaultStocks;
+                }
+                const tickerOnly = stocks.map((item) => item.ticker);
+                this.setState({
+                    userStocks: tickerOnly,
+                    activeStock: tickerOnly[0]
+                });
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     changeActive(stock) {
@@ -48,6 +76,11 @@ export default class App extends React.Component {
                     hideMenu={this.hideMenu} />
             );
         }
+
+        if (!this.state.activeStock) {
+            return null;
+        }
+
         return (
             <div className="stock-app">
                 <div className="stock-app__header">
@@ -61,7 +94,7 @@ export default class App extends React.Component {
                 <div className="stock-app__list">
                     <StockList
                         activeStock={this.state.activeStock}
-                        stocks={stocks} 
+                        stocks={this.state.userStocks} 
                         changeActive={this.changeActive} />
                 </div>
                 {menu}
