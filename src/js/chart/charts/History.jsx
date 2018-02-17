@@ -178,6 +178,7 @@ export default class History extends React.Component {
                 <g
                     transform={`translate(${this.props.width - 5} ${this.props.height - 7})`}>
                     <text
+                        className="stock-chart__chart-label"
                         fill="#6F7470"
                         textAnchor="end">
                         {accounting.formatNumber(Math.min(...prices), 0)}
@@ -186,6 +187,7 @@ export default class History extends React.Component {
                 <g
                     transform={`translate(${this.props.width - 5} 18)`}>
                     <text
+                        className="stock-chart__chart-label"
                         fill="#6F7470"
                         textAnchor="end">
                         {accounting.formatNumber(Math.max(...prices), 0)}

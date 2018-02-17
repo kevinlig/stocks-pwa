@@ -1,0 +1,20 @@
+.stock-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    height: 100%;
+
+    .stock-header__menu {
+        flex: 0 0 30px;
+        @include unstyled-button;
+        color: $color-white;
+        font-size: 30px;
+        height: 30px;
+        padding: 0;
+        margin-right: 15px;
+    }
+    .stock-header__menu-icon {
+        font-family: 'Material Icons';
+    }
+}

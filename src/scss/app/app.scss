@@ -3,6 +3,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: stretch;
+    position: relative;
     height: 100vh;
     width: 100vw;
 
@@ -24,6 +25,9 @@
         overflow: auto;
     }
 
+    @import "./header/_header";
     @import "./list/_list";
     @import "./chart/_chart";
+
+    @import "./menu/_menu";
 }
