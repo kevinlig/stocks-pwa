@@ -1,16 +1,16 @@
 import BaseStock from 'models/BaseStock';
 import BaseHistory from 'models/BaseHistory';
 
-const baseUrl = 'https://api.iextrading.com/1.0';
+export const baseUrl = 'https://api.iextrading.com/1.0';
 
-const fetchCompany = (symbol) => {
+export const fetchCompany = (symbol) => {
     const request = new Request(`${baseUrl}/stock/${symbol}/company`, {
         method: 'GET'
     });
     return fetch(request);
 };
 
-const fetchStockList = (symbols) => {
+export const fetchStockList = (symbols) => {
     const urlParams = new URLSearchParams();
     urlParams.set('types', 'quote');
     urlParams.set('symbols', symbols.join(','));
@@ -22,7 +22,7 @@ const fetchStockList = (symbols) => {
     return fetch(request);
 };
 
-const fetchStockHistory = (symbol, range) => {
+export const fetchStockHistory = (symbol, range) => {
     const request = new Request(`${baseUrl}/stock/${symbol}/chart/${range}`, {
         method: 'GET'
     });
@@ -30,14 +30,14 @@ const fetchStockHistory = (symbol, range) => {
     return fetch(request);
 };
 
-const parseCompanyData = (data) => (
+export const parseCompanyData = (data) => (
     {
         ticker: data.symbol,
         name: data.companyName
     }
 );
 
-const parseStockList = (data) => (
+export const parseStockList = (data) => (
     Object.keys(data).reduce((items, symbol) => {
         const quote = data[symbol].quote;
         const stock = Object.create(BaseStock);
@@ -47,7 +47,7 @@ const parseStockList = (data) => (
     }, [])
 );
 
-const parseStockHistory = (data) => (
+export const parseStockHistory = (data) => (
     data.reduce((history, raw) => {
         const point = Object.create(BaseHistory);
         point.populate(raw);

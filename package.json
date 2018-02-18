@@ -4,7 +4,7 @@
   "description": "PWA stock market app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "./node_modules/.bin/jest --verbose",
     "start": "./node_modules/.bin/webpack-dev-server --progress --config ./webpack.config.js",
     "prod": "./node_modules/.bin/webpack -p --progress --config ./webpack.config.js"
   },
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "babel-core": "^6.26.0",
+    "babel-jest": "^22.2.2",
     "babel-loader": "^7.1.2",
     "babel-plugin-module-resolver": "^3.0.0",
     "babel-preset-env": "^1.6.1",
