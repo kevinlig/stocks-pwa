@@ -1,4 +1,5 @@
 import React from 'react';
+import * as OfflinePluginRuntime from 'offline-plugin/runtime';
 
 import {
     readUserStocks
@@ -18,17 +19,38 @@ export default class App extends React.Component {
             userStocks: [],
             stocksChanged: Symbol('stock tracker'),
             activeStock: null,
-            menuActive: false
+            menuActive: false,
+            updateAvailable: false
         };
 
         this.loadUserStocks = this.loadUserStocks.bind(this);
         this.changeActive = this.changeActive.bind(this);
         this.showMenu = this.showMenu.bind(this);
         this.hideMenu = this.hideMenu.bind(this);
+        this.applyUpdate = this.applyUpdate.bind(this);
     }
 
     componentDidMount() {
         this.loadUserStocks();
+        OfflinePluginRuntime.install({
+            onUpdateReady: () => {
+                this.promptUpdate();
+            },
+            onUpdated: () => {
+                // reload the page
+                window.location.reload();
+            }
+        });
+    }
+
+    promptUpdate() {
+        this.setState({
+            updateAvailable: true
+        });
+    }
+
+    applyUpdate() {
+        OfflinePluginRuntime.applyUpdate();
     }
 
     loadUserStocks() {
@@ -78,6 +100,22 @@ export default class App extends React.Component {
             return null;
         }
 
+        let update = null;
+        if (this.state.updateAvailable) {
+            update = (
+                <div className="stock-app__update">
+                    <div className="stock-app__update-text">
+                        An update is available. Would you like to install it?
+                    </div>
+                    <button
+                        className="stock-app__update-button"
+                        onClick={this.applyUpdate}>
+                        Yes
+                    </button>
+                </div>
+            )
+        }
+
         return (
             <div className="stock-app">
                 <div className="stock-app__header">
@@ -96,6 +134,7 @@ export default class App extends React.Component {
                         changeActive={this.changeActive} />
                 </div>
                 {menu}
+                {update}
             </div>
         );
     }

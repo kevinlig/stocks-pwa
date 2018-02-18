@@ -1,5 +1,5 @@
 CACHE MANIFEST
-#ver:2018-2-17 18:19:49
+#ver:2018-2-17 21:24:29
 #plugin:4.9.0
 
 CACHE:
@@ -7,6 +7,8 @@ CACHE:
 ../dist/css/style.css
 ../
 ../dist/css/style.css
+../assets/fonts/MaterialIcons-Regular.ttf
+../assets/fonts/Roboto-Regular.ttf
 
 NETWORK:
 *

@@ -41,6 +41,11 @@ export default class StockList extends React.Component {
                 offline: true,
                 quotes: loadOfflineStocks(tickerOnly)
             });
+
+            // try again in 15 seconds
+            window.setTimeout(() => {
+                this.loadData();
+            }, 15000);
             return;
         }
 

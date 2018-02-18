@@ -53,6 +53,11 @@ export default class StockHistory extends React.Component {
             this.setState({
                 offline: true
             });
+
+            // try again in 15 seconds
+            window.setTimeout(() => {
+                this.loadData(stock);
+            }, 15000);
             return;
         }
 

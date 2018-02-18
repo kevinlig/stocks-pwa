@@ -59,12 +59,17 @@ module.exports = {
             filename: 'dist/css/style.css',
             allChunks: true
         }),
-        // new OfflinePlugin({
-        //     externals: [
-        //         'index.html',
-        //         'dist/css/style.css'
-        //     ]
-        // })
+        new OfflinePlugin({
+            externals: [
+                'index.html',
+                'dist/css/style.css',
+                'assets/fonts/MaterialIcons-Regular.ttf',
+                'assets/fonts/Roboto-Regular.ttf'
+            ],
+            ServiceWorker: {
+                events: true
+            }
+        })
     ],
     devServer: {
         contentBase: path.resolve(__dirname),
