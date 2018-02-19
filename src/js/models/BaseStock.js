@@ -2,7 +2,7 @@ import accounting from 'accounting';
 
 const unitAbbrev = ['T', 'B', 'M', 'k', ''];
 
-const formatMarketCap = function(marketCap) {
+export const formatMarketCap = function(marketCap) {
     let output = '';
     unitAbbrev.every((unitString, index) => {
         const power = unitAbbrev.length - index - 1;
